@@ -5,9 +5,10 @@ class Calculus extends Command {
   static description:string = 'Game of calculus'
   
   private totalTime:number = 0;
-  public gameTime:number = 0;
-
+  private gameTime:number = 0;
+  private numberOfDigits: string = '0'
   private operations:string[] = [''];
+  private lifes = 3;
   
   static flags = {
     // add --version flag to show CLI version
@@ -29,6 +30,25 @@ class Calculus extends Command {
       this.parse(Calculus);
     
       this.adjustOperation(await this.selectOperation());
+      
+      await this.selectNumberOfDigits()
+      
+      while (this.lifes > 0) {
+          //this.newGame()
+      }
+  }
+  
+  
+  async selectNumberOfDigits(): Promise<void> {
+        const self = this
+        await inquirer.prompt({
+			name: 'operacao',
+			type: 'list',
+			message: 'Por favor selecione o número de dígitos',
+			choices: ['1', '2', '3', '4', '5']
+		}).then(function(answer: string) {
+			self.numberOfDigits = answer
+		});
   }
   
   async selectOperation(): Promise<string> { 
